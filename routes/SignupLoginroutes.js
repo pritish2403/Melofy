@@ -53,4 +53,15 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.post("/data", (req, res) => {
+  const { username } = req.body;
+  Schema.findOne({ username: username }).then((login) => {
+    if (login) {
+      return res.json(login);
+    } else {
+      return res.status(400).json("No record exits");
+    }
+  });
+});
+
 module.exports = router;
