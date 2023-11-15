@@ -64,4 +64,48 @@ router.post("/data", (req, res) => {
   });
 });
 
+router.delete("/delete", async (req, res) => {
+  try {
+    const { username } = req.body;
+    console.log(username);
+
+    // Find the user with the provided username and delete it
+    const deletedUser = await Schema.findOneAndDelete({
+      username: username,
+    });
+
+    if (deletedUser) {
+      res
+        .status(200)
+        .json({ message: "User deleted successfully", deletedUser });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete user" });
+  }
+});
+
+router.post("/update", async (req, res) => {
+  try {
+    const { username, name, email, password } = req.body;
+
+    // Check if a user with the provided username exists in the database
+    const existingUser = await Schema.findOne({ username });
+
+    if (existingUser) {
+      // Update the existing user's information
+      existingUser.name = name;
+      existingUser.password = password;
+      await existingUser.save();
+
+      res.status(200).json({ message: "User data updated successfully" });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Failed to save/update user data" });
+  }
+});
+
 module.exports = router;
