@@ -3,7 +3,7 @@ const router = express.Router();
 const FavSchema = require("../schema/FavSchema");
 
 router.post("/create", async (req, res, next) => {
-  const { username, id } = req.body;
+  const { username, id, type } = req.body;
   const existingID = await FavSchema.findOne({ id: id });
   if (existingID) {
     return res.status(400).json("Already Added to Favourites");
@@ -12,6 +12,7 @@ router.post("/create", async (req, res, next) => {
     const newUser = await FavSchema.create({
       username,
       id,
+      type,
     });
     return res.json("Added to Favourites");
   } catch (error) {
@@ -36,12 +37,13 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res, next) => {
-  const { username, id } = req.body;
+  const { username, id, type } = req.body;
 
   try {
     const deletedTask = await FavSchema.findOneAndDelete({
       username: username,
       id: id,
+      type: type,
     });
 
     if (deletedTask) {
