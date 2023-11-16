@@ -37,19 +37,36 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res, next) => {
-  const { username, id, type } = req.body;
+  const { username, id } = req.body;
 
   try {
     const deletedTask = await FavSchema.findOneAndDelete({
       username: username,
       id: id,
-      type: type,
     });
 
     if (deletedTask) {
       return res.json("Removed Successfully");
     } else {
       return res.status(404).json("Not found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/deleteAll", async (req, res, next) => {
+  const { username } = req.body;
+
+  try {
+    const deletedTask = await FavSchema.deleteMany({
+      username: username,
+    });
+
+    if (deletedTask) {
+      return res.json("Favourites deleted successfully");
+    } else {
+      return res.status(404).json("Favourites not found");
     }
   } catch (error) {
     next(error);
