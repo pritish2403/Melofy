@@ -4,7 +4,11 @@ const FavSchema = require("../schema/FavSchema");
 
 router.post("/create", async (req, res, next) => {
   const { username, id, type } = req.body;
-  const existingID = await FavSchema.findOne({ id: id });
+  const existingID = await FavSchema.findOne({
+    username: username,
+    id: id,
+    type: type,
+  });
   if (existingID) {
     return res.status(400).json("Already Added to Favourites");
   }
