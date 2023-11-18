@@ -8,7 +8,7 @@ const app = express();
 
 mongoose.set("strictQuery", true);
 mongoose.connect(
-  "mongodb+srv://umesh:umesh@umesh.pcb6mnz.mongodb.net/VibeVerse"
+  "mongodb+srv://chethannv:chethan@chethan.kjdlxwb.mongodb.net/VibeVerse"
 );
 const db = mongoose.connection;
 db.on("open", () => {
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/Signup-Login", SL);
 app.use("/Fav", FL);
-const port = 6000;
+const port = 5000;
 app.listen(port, () => {
   console.log("Server Started on " + port);
 });
