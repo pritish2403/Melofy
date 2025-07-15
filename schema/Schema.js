@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 
-const Schema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-    username: { type: String },
-    name: { type: String },
-    email: { type: String },
-    password: { type: String },
+    username: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }, // store hashed password, not plaintext
   },
   {
-    collection: "Signup-Login",
+    collection: "users", // use lowercase and plural for convention
+    timestamps: true, // adds createdAt and updatedAt fields
   }
 );
 
-module.exports = mongoose.model("Signup-Login", Schema);
+// Export the model
+module.exports = mongoose.model("User", userSchema);

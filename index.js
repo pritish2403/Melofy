@@ -1,30 +1,46 @@
-const mongoose = require("mongoose");
 const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const SL = require("./routes/SignupLoginroutes");
 const FL = require("./routes/Favourites");
-const cors = require("cors");
 
 const app = express();
 
-mongoose.set("strictQuery", true);
-mongoose.connect(
-  // "mongodb+srv://chethannv:chethan@chethan.kjdlxwb.mongodb.net/VibeVerse"
-  "mongodb+srv://umesh:umesh@umesh.pcb6mnz.mongodb.net/VibeVerse"
+// ✅ CORS must be configured before routes
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://melofy-frontend.onrender.com" // Replace with your actual frontend URL
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
 );
-const db = mongoose.connection;
-db.on("open", () => {
-  console.log("Database Connected");
-  console.log("Connected to Umesh");
-});
-db.on("error", () => {
-  console.log("Database not Connected");
-});
 
+// Optional but good for preflight handling
+app.options("*", cors());
+
+// ✅ Middleware
 app.use(express.json());
-app.use(cors());
+
+// ✅ MongoDB connection
+mongoose.connect(
+  "mongodb+srv://divatepritish:BDbOzQbezPDEvqcn@cluster0.pgjmyf1.mongodb.net/melofy?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+)
+.then(() => console.log("✅ Database Connected"))
+.catch((err) => console.error("❌ Database Connection Error:", err));
+
+// ✅ Routes
 app.use("/Signup-Login", SL);
 app.use("/Fav", FL);
-const port = 5000;
+
+// ✅ Start server
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log("Server Started on " + port);
+  console.log(`🚀 Server Started on http://localhost:${port}`);
 });
