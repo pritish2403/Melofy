@@ -12,7 +12,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://melofy-frontend.onrender.com",
-      "https://melofy-otpb.onrender.com" // Added new frontend URL
+      "https://melofy-otpb.onrender.com",
+      "https://melofy-1ea5.onrender.com" // Added deployed backend URL
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
