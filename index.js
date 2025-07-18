@@ -11,7 +11,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://melofy-frontend.onrender.com" // Replace with your actual frontend URL
+      "https://melofy-frontend.onrender.com",
+      "https://melofy-otpb.onrender.com" // Added new frontend URL
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
